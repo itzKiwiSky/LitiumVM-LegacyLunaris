@@ -2,12 +2,12 @@ btassets = {}
 
 imageload = love.graphics.newImage
 
-path = "lunaris/system/boot/resources/"
+btpath = "lunaris/system/boot/resources/"
 
 function btassets.load()
     return {
-        bticon              =       imageload(path .. "icon.png"),
-        btloadicon          =       imageload(path .. "icon2.png")
+        bticon              =       imageload(btpath .. "icon.png"),
+        btloadicon          =       imageload(btpath .. "icon2.png")
     }
 end
 
