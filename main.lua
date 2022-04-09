@@ -1,9 +1,5 @@
 function love.load()
-    --[[ bootloader stuff ]]-- 
-    --bootloader = require 'src/bootutils/bootloader'
-    --btassets = require 'src/bootutils/bootassets'
     state = require 'src/states'
-    bootLoading = false
 end
 
 function love.update(dt)
