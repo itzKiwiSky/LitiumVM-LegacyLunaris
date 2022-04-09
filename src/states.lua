@@ -1,30 +1,37 @@
 state = {}
 
+
+--[[ scene scrips ]]--
+
+-- boot --
 boot_assets = require 'src/bootutils/bootassets'
 bootloader = require 'src/bootutils/bootloader'
-
-errorscreen = require 'src/errorscreen'
-
-explorer = require 'src/explorer'
 boot_assets = btassets.load()
 
-function state.initState(id)
-    if id == 1 then
+-- error screen --
+errorscreen = require 'src/errorscreen'
+
+-- explorer desktop --
+explorer = require 'src/explorer'
+
+
+function state.initState(stateName)
+    if stateName == "bootloader" then
         bootloader.init()
     end
-    if id == 2 then
+    if stateName == "explorer" then
         explorer.init()
     end
-    if id == 3 then
+    if stateName == "error" then
         errorscreen.init()
     end
 end
 
-function state.updateState(id)
-    if id == 1 then
+function state.updateState(stateName)
+    if stateName == "bootloader" then
         bootloader.update()
     end
-    if id == 2 then
+    if stateName == "explorer" then
         explorer.update()
     end
 end
