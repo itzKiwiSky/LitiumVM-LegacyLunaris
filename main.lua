@@ -1,12 +1,14 @@
-function love.load()
-    state = require 'src/states'
-end
 
-function love.update(dt)
-    --[[ states ]]--
-    --state.updateState(1)
+function love.load()
+    states = require 'src/states'
+    utils = require 'src/utils'
 end
 
 function love.draw()
-    state.initState("error")
+    state = "bios"
+    states.drawState(state)
+end
+
+function love.update(dt)
+    --states.updateState(state)
 end

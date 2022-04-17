@@ -1,5 +1,5 @@
 @echo off
 cls
 color 05
-echo compiling...
+echo Building...
 love %cd%
