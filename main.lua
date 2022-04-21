@@ -1,14 +1,16 @@
-
 function love.load()
-    states = require 'src/states'
-    utils = require 'src/utils'
+    render = require 'src/render/renderCore'
+
+    player = {
+        {1,2,3,4,5,6,7,8}
+    }
 end
 
 function love.draw()
-    state = "bios"
-    states.drawState(state)
+    love.graphics.setBackgroundColor(0.3,0.3,0.3)
+    render.addSprite(player, 32, false)
 end
 
 function love.update(dt)
-    --states.updateState(state)
+    
 end

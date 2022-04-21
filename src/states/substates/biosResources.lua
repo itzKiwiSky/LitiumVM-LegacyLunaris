@@ -1,5 +1,0 @@
-biosresc = {}
-
-
-
-return biosresc
