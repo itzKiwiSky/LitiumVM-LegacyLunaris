@@ -1,5 +1,5 @@
 function love.conf(w)
     w.window.width      =       1280
     w.window.height     =       720
-    w.window.title      =       "VMTest"
+    w.window.title      =       "yoooooooooooooooooooooooo"
 end
