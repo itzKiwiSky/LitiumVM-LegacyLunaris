@@ -1,6 +1,6 @@
 state = {}
 
-bootloader = require 'src/native/system/bootloader'
+bootloader = require 'src/system/bootloader'
 
 function state.stateDraw(statename)
     if statename == "bootloader" then

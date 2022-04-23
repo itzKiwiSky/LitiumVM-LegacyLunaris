@@ -1,14 +1,18 @@
-sprite = {}
+graphics = {}
 
 rendercore = require 'src/native/engine/rendercore'
 
-function sprite.newSprite(table, pixelsize, xpos, ypos, wireframebool)
+function graphics.newSprite(table, pixelsize, xpos, ypos, wireframebool)
     rendercore.drawCall(table, pixelsize, xpos, ypos, wireframebool)
 end
 
-function sprite.backgroundImage(path)
-    background = love.graphics.newImage(path)
-    assert(path == nil, "No image has been loaded")
+function graphics.playAnim(sprAnimatedTable, animSpd, frames)
+    
+end
+
+function graphics.backgroundImage(imgpath)
+    --assert(path == nil, "No image has been loaded")
+    background = love.graphics.newImage(imgpath)
  
     bgWidth = background:getWidth()
     bgHeight = background:getHeight()
@@ -19,6 +23,14 @@ function sprite.backgroundImage(path)
     if bgHeight > 256 then
         error("Image have size higher than 256 pixels")
     end
+
+    return background
 end
 
-return sprite
+function graphics.backgroundImageDraw()
+    --assert(background == nil, "No image found to draw")
+    love.graphics.draw(background, 640, 380)
+end
+
+
+return graphics
