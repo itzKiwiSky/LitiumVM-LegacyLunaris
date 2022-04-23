@@ -16,6 +16,17 @@ function rendercore.drawCall(tablespr, pixelSize, Xpos, Ypos ,wireframeBool)
         end
     end
 
+    colorsTable = {
+        {0,0,0},
+        {1,1,1},
+        {1,0,0},
+        {0,1,0},
+        {0,0,1},
+        {1,1,0},
+        {0,1,1},
+        {1,0,1}
+    }
+
 
     for y=1, #tablespr do
 		for x=1, #tablespr[1] do
@@ -26,16 +37,16 @@ function rendercore.drawCall(tablespr, pixelSize, Xpos, Ypos ,wireframeBool)
                     setColor(0,0,0)
                 end
                 if tablespr[y][x] == 1 then
-                    setColor(0,0,0)     
+                    setColor(0,0,0)
                 end
                 if tablespr[y][x] == 2 then
-                    setColor(1,1,1)        
+                    setColor(1,1,1)
                 end
                 if tablespr[y][x] == 3 then
-                    setColor(1,0,0)      
+                    setColor(1,0,0)
                 end
                 if tablespr[y][x] == 4 then
-                    setColor(0,1,0) 
+                    setColor(0,1,0)
                 end
                 if tablespr[y][x] == 5 then
                     setColor(0,0,1)
@@ -54,5 +65,6 @@ function rendercore.drawCall(tablespr, pixelSize, Xpos, Ypos ,wireframeBool)
 		end
 	end
 end
+
 
 return rendercore
