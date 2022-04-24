@@ -17,10 +17,8 @@ function bootloader.draw()
         {1,3,3,3,2,2,3,1},
         {1,1,3,3,3,3,1,1}
     }
-
-    lunagraph.backgroundImage("resources/placeholder.png")
-    lunagraph.newSprite(logo, 16, 640 + 64, 434)
-    lunagraph.backgroundImageDraw()
+    lunagraph.sceneColor(3)
+    lunagraph.newSprite(logo, 16, 640, 320)
 end
 
 

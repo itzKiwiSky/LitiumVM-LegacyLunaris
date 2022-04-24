@@ -2,31 +2,39 @@ function love.load()
     sprite = require 'src/api/sprite/texture'
     state = require 'src/system/statemngr'
     sfxr = require 'src.native.engine/sfxr'
+    font = require 'src/system/resources/font'
 
     spr = {
-        frame0 = {
+        {
             {3,3,3},
             {1,1,1},
             {1,1,1}
         },
-        frame1 = {
+        {
             {1,1,1},
             {3,3,3},
             {1,1,1}
         },
-        frame2 = {
+        {
             {1,1,1},
             {1,1,1},
             {3,3,3}
         }
     }
 
-
-
 end
 
 function love.draw()
-    state.stateDraw("bootloader")
+    --state.stateDraw("bootloader")
+    --lunagraph.playAnim(spr, 50, 3, false)
+    --lunagraph.newSprite(font[1], 8, 90, 90)
+    xPos = 16
+    yPos = 90
+    for letter=1,  #font do
+        lunagraph.newSprite(font[letter], 8, xPos, yPos, false)
+        xPos = xPos + 64
+        letter = letter + 1
+    end
 end
 
 function love.update(dt)

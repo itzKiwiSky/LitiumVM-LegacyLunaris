@@ -2,35 +2,20 @@ graphics = {}
 
 rendercore = require 'src/native/engine/rendercore'
 
+--- Create a new Sprite.
+--- @param table | Parse the sprite table
+--- @param pixelsize | Chnage the Pixelsize
+--- @param xpos | X position to create sprite
+--- @param ypos | Y Position to create sprite
+--- @param wireframebool | boolean to show wireframe (Debug)
 function graphics.newSprite(table, pixelsize, xpos, ypos, wireframebool)
     rendercore.drawCall(table, pixelsize, xpos, ypos, wireframebool)
 end
 
-function graphics.playAnim(sprAnimatedTable, animSpd, frames)
-    
+function graphics.sceneColor(colorid)
+    rendercore.windowColor(colorid)
 end
 
-function graphics.backgroundImage(imgpath)
-    --assert(path == nil, "No image has been loaded")
-    background = love.graphics.newImage(imgpath)
- 
-    bgWidth = background:getWidth()
-    bgHeight = background:getHeight()
-
-    if bgWidth > 256 then
-        error("Image have size higher than 256 pixels")
-    end
-    if bgHeight > 256 then
-        error("Image have size higher than 256 pixels")
-    end
-
-    return background
-end
-
-function graphics.backgroundImageDraw()
-    --assert(background == nil, "No image found to draw")
-    love.graphics.draw(background, 640, 380)
-end
 
 
 return graphics
