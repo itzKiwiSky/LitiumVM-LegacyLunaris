@@ -1,3 +1,15 @@
+--[[
+
+        Font by ChocolateLoxtl
+    
+    OBS : This script require a special function to work, you can find this function on src/native/engine/rendercore
+    
+
+        if You want use it on your projetcs, feel free to use, please just put the credits on the source or project ReadMe.md
+        I got a lot of work on this <3
+]]--
+
+
 font = {
     {   -- A --
         {1,1,1,1,1,1},
@@ -206,7 +218,7 @@ font = {
         {1,1,3,1,1,1},
         {1,3,1,1,1,1},
         {3,3,3,3,3,1}
-    },
+    }
 }
 
 return font

@@ -74,5 +74,12 @@ function rendercore.windowColor(idcolor)
     setBackgroundcolor(colorsTable[idcolor])
 end
 
+-- rendercore callback to generate string
+
+function rendercore.drawStr(size, x, y, str)
+    for letter=0, #str do
+        
+    end
+end
 
 return rendercore
