@@ -4,6 +4,9 @@ rect                    =               love.graphics.rectangle
 setColor                =               love.graphics.setColor
 setBackgroundcolor      =               love.graphics.setBackgroundColor
 
+text = require 'src/native/engine/text'
+font = require 'src/native/engine/resources/font'
+
 function rendercore.drawCall(tablespr, pixelSize, Xpos, Ypos ,wireframeBool)
     cellSize = pixelSize
 
@@ -77,8 +80,15 @@ end
 -- rendercore callback to generate string
 
 function rendercore.drawStr(size, x, y, str)
-    for letter=0, #str do
-        
+    text = text.splitLetters(str)
+
+    local letters = 'abcdefghijklmnopqrstuvwxyz0123456789'
+
+    for i=1, #font do
+        local char = text:sub(i,i) -- this gets the current letter of whatever number we are in the loop
+        local num = letters:find(char) -- this returns the position of char in our letters string.
+
+        rendercore.drawCall()
     end
 end
 
