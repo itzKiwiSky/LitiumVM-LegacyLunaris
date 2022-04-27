@@ -33,8 +33,8 @@ function love.draw()
     --lunagraph.newSprite(spr[2], 8, 90, 90)
     love.graphics.setBackgroundColor(0.2, 0.2, 0.2)
     --genAlphabet()
-    rendercore.drawStr("section data", 30, 128, 2, false)
-    rendercore.drawStr("hello db Hello mom 10", 30, 196, 2, false)
+    rendercore.drawStr("isso funciona caraii", 30, 128, 5, false)
+    rendercore.drawStr("RECEBAAAAA", 30, 175, 5, false)
 end
 
 function genAlphabet()
