@@ -20,41 +20,26 @@ function rendercore.drawCall(tablespr, pixelSize, Xpos, Ypos, wireframeBool)
         end
     end
 
+    colors = {
+        {0,0,0},
+        {0.5,0.5,0.5},
+        {1,1,1},
+        {1,0,0},
+        {0,1,0},
+        {0,0,1},
+        {1,1,0},
+        {0,1,1},
+        {1,0,1}
+    }
+
+
     for y=1, #tablespr do
 		for x=1, #tablespr[1] do
+            color = colors[tablespr[y][x]]
             if y > 50 or x > 50 then
                 return nil
             else
-                if tablespr[y][x] == 0 then
-                    setColor(0,0,0)
-                end
-                if tablespr[y][x] == 1 then
-                    setColor(0,0,0)
-                end
-                if tablespr[y][x] == 2 then
-                    setColor(0.5,0.5,0.5)
-                end
-                if tablespr[y][x] == 3 then
-                    setColor(1,1,1)
-                end
-                if tablespr[y][x] == 4 then
-                    setColor(1,0,0)
-                end
-                if tablespr[y][x] == 5 then
-                    setColor(0,1,0)
-                end
-                if tablespr[y][x] == 6 then
-                    setColor(0,0,1)
-                end
-                if tablespr[y][x] == 7 then
-                    setColor(1,1,0)
-                end
-                if tablespr[y][x] == 8 then
-                    setColor(0,1,1)
-                end
-                if tablespr[y][x] == 9 then
-                    setColor(1,0,1)
-                end
+                setColor(color[1], color[2], color[3])
                 rect(wireframe, Xpos + (x * cellSize), Ypos + (y * cellSize), cellSize, cellSize)
             end
 		end

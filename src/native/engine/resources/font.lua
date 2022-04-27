@@ -11,6 +11,13 @@
 
 
 font = {
+    -- Some info stuff ---
+
+    FontName        =       "LunaCode",
+    Version         =       "1.0.0",
+    Author          =       "ChocolateLoxtl_",
+
+
     {   -- A --
         {1,1,1,1,1,1},
         {1,1,3,3,1,1},

@@ -42,7 +42,7 @@ function genAlphabet()
     yPos = 28
     textSize = 2
 
-    for letter=1,  #font do
+    for letter = 5,  #font do
         lunagraph.newSprite(font[letter], textSize, xPos, yPos, false)
         xPos = xPos + (textSize * 8)
         letter = letter + 1
