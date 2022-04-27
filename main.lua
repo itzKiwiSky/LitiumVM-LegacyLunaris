@@ -32,14 +32,15 @@ function love.draw()
     --state.stateDraw("bootloader")
     --lunagraph.newSprite(spr[2], 8, 90, 90)
     love.graphics.setBackgroundColor(0.2, 0.2, 0.2)
-    genAlphabet()
-    --rendercore.drawStr()
+    --genAlphabet()
+    rendercore.drawStr("section data", 30, 128, 2, false)
+    rendercore.drawStr("hello db Hello mom 10", 30, 196, 2, false)
 end
 
 function genAlphabet()
     xPos = 16
     yPos = 28
-    textSize = 8
+    textSize = 2
 
     for letter=1,  #font do
         lunagraph.newSprite(font[letter], textSize, xPos, yPos, false)
