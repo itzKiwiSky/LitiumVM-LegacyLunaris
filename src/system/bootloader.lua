@@ -1,7 +1,9 @@
 bootloader = {}
 
 -- render core --
-lunagraph = require 'src/api/sprite/texture'
+lunagraph = require 'src/api/sprite/lunagraphics'
+
+progress = 0
 
 function bootloader.draw()
     --[[ initialize all objects to screen ]]--
@@ -17,9 +19,18 @@ function bootloader.draw()
         {1,3,3,3,2,2,3,1},
         {1,1,3,3,3,3,1,1}
     }
-    lunagraph.sceneColor(3)
-    lunagraph.newSprite(logo, 16, 640, 320)
+    lunagraph.sceneColor(1)
+    lunagraph.newSprite(logo, 16, 580, 170, false)
+    lunagraph.newText("Loading components", 320, 490, 6, false)
+    lunagraph.rect(0, 690, progress, 64, 3, 1)
+
 end
 
+function bootloader.update()
+
+    math.randomseed(os.clock())
+
+    progress = progress + math.random(1, 15)
+end
 
 return bootloader

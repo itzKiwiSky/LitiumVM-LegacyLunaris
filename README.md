@@ -16,17 +16,3 @@ You can download this source code and build it on your machine
 You can contribute with the development of engine by clonning this repository with the most recent version of code and make your changes.
 
 Everyone who helps will be credited here (social media or Github page)
-
-
-# Changes
-
--  added String render callback on RenderCore.lua
--  few changes to rendercore code 
-
-
-# Next update
-
-- Sound "driver" (Sound generator)
-- Animation code to sprite tables
-- Destroy function for text and sprites
-- input tests

@@ -9,7 +9,9 @@ function state.stateDraw(statename)
 end
 
 function state.stateUpdate(statename)
-    
+    if statename == "bootloader" then
+        bootloader.update()
+    end
 end
 
 return state

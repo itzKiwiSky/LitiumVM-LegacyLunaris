@@ -13,9 +13,10 @@
 font = {
     -- Some info stuff ---
 
-    FontName        =       "LunaCode",
-    Version         =       "1.0.0",
-    Author          =       "ChocolateLoxtl_",
+    FontName                =             "LunaCode",                 --  Font name (optional)
+    Version                 =             "1.0.0",                    --  Font version (optional)    
+    Author                  =             "ChocolateLoxtl_",          --  Font author (optional)
+    FontSpacing             =             6,                          --  Font character spacing (Required)
 
 
     {   -- A --
@@ -140,11 +141,11 @@ font = {
     },
     {   -- P --
         {1,1,1,1,1,1},
-        {1,1,3,3,1,1},
-        {1,1,3,1,3,1},
-        {1,1,3,3,1,1},
-        {1,1,3,1,1,1},
-        {1,1,3,1,1,1}
+        {1,3,3,3,1,1},
+        {1,3,1,1,3,1},
+        {1,3,3,3,1,1},
+        {1,3,1,1,1,1},
+        {1,3,1,1,1,1}
     },
     {   -- Q --
         {1,1,1,1,1,1},
@@ -313,6 +314,14 @@ font = {
         {1,1,1,1,1,1},
         {1,1,1,1,1,1},
         {1,1,1,1,1,1}
+    },
+    {   -- ! --
+        {1,1,1,1,1,1},
+        {1,1,3,1,1,1},
+        {1,1,3,1,1,1},
+        {1,1,3,1,1,1},
+        {1,1,1,1,1,1},
+        {1,1,3,1,1,1}
     }
 }
 

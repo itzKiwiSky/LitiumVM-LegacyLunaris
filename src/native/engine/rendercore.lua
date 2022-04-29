@@ -4,11 +4,10 @@ rect                    =               love.graphics.rectangle
 setColor                =               love.graphics.setColor
 setBackgroundcolor      =               love.graphics.setBackgroundColor
 
-text = require 'src/native/engine/text'
 fonts = require 'src/native/engine/resources/font'
 
+
 function rendercore.drawCall(tablespr, pixelSize, Xpos, Ypos, wireframeBool)
-    cellSize = pixelSize
 
     if wireframe == nil then
         wireframe = "fill"
@@ -32,18 +31,34 @@ function rendercore.drawCall(tablespr, pixelSize, Xpos, Ypos, wireframeBool)
         {1,0,1}
     }
 
-
     for y=1, #tablespr do
 		for x=1, #tablespr[1] do
             color = colors[tablespr[y][x]]
+            
             if y > 50 or x > 50 then
                 return nil
             else
                 setColor(color[1], color[2], color[3])
-                rect(wireframe, Xpos + (x * cellSize), Ypos + (y * cellSize), cellSize, cellSize)
+                rect(wireframe, Xpos + (x * pixelSize), Ypos + (y * pixelSize), pixelSize, pixelSize)
             end
 		end
 	end
+end
+
+function rendercore.windowColor(colorid)
+    WindowColors = {
+        {0,0,0},
+        {0.5,0.5,0.5},
+        {1,1,1},
+        {1,0,0},
+        {0,1,0},
+        {0,0,1},
+        {1,1,0},
+        {0,1,1},
+        {1,0,1}
+    }
+
+    setBackgroundcolor(WindowColors[colorid])
 end
 
 
@@ -54,7 +69,9 @@ function rendercore.drawStr(Textstr, x, y, FontSize, debugWireframe)
 
     textOutput = string.lower(Textstr)
 
-    letters = "abcdefghijklmnopqrstuvwxyz0123456789 !@#$%¨&*(),.:;/?|-_"
+    letters = "abcdefghijklmnopqrstuvwxyz0123456789 !"
+
+    letterSize = fonts.FontSpacing
 
     textX = x
     textY = y
@@ -65,8 +82,26 @@ function rendercore.drawStr(Textstr, x, y, FontSize, debugWireframe)
         num = letters:find(char) -- this returns the position of char in our letters string.
 
         rendercore.drawCall(fonts[num], FontSize, textX, textY, debugWireframe)
-        textX = textX + (FontSize * 6)      -- table sprite size
+        textX = textX + (FontSize * letterSize)      -- table sprite size
     end
+end
+
+function rendercore.rect(x, y, w, h, colorid, wireframe)
+    RectColor = {
+        {0,0,0},
+        {0.5,0.5,0.5},
+        {1,1,1},
+        {1,0,0},
+        {0,1,0},
+        {0,0,1},
+        {1,1,0},
+        {0,1,1},
+        {1,0,1}
+    }
+
+    setColor(RectColor[colorid])
+
+    rect(wireframe, x, y, w, h)
 end
 
 return rendercore
