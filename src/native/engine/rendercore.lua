@@ -64,7 +64,7 @@ end
 
 -- rendercore callback to generate string
 
-function rendercore.drawStr(Textstr, x, y, FontSize, debugWireframe)
+function rendercore.drawStr(Textstr, x, y, FontSize, Colorid, debugWireframe)
     --textStr = text.splitLetters(str)
 
     textOutput = string.lower(Textstr)
@@ -78,13 +78,42 @@ function rendercore.drawStr(Textstr, x, y, FontSize, debugWireframe)
 
     for i = 1, #Textstr do
 
-        char = textOutput   :sub(i,i) -- this gets the current letter of whatever number we are in the loop
+        char = textOutput   :sub(i, i) -- this gets the current letter of whatever number we are in the loop
         num = letters:find(char) -- this returns the position of char in our letters string.
 
-        rendercore.drawCall(fonts[num], FontSize, textX, textY, debugWireframe)
-        textX = textX + (FontSize * letterSize)      -- table sprite size
+        rendercore.drawTextLetter(fonts[num], FontSize, textX, textY, olorid, debugWireframe)
+        textX = textX + (FontSize * letterSize)
     end
 end
+
+---------------------------------------------
+function rendercore.drawTextLetter(TableContent, letterSize, XPos, YPos, ColorId)
+
+    FontColor = {
+        {0.5,0.5,0.5},
+        {1,1,1},
+        {1,0,0},
+        {0,1,0},
+        {0,0,1},
+        {1,1,0},
+        {0,1,1},
+        {1,0,1}
+    }
+
+    for y = 1, #TableContent do
+        for x = 1, #TableContent[1] do
+            if TableContent[y][x] == 1 then
+                setColor(0, 0, 0)
+            end
+            if TableContent[y][x] ~= 1 then
+                setColor(FontColor[ColorId])
+            end
+            rect("fill", XPos + (XPos * letterSize), YPos + (YPos * letterSize), letterSize, letterSize)
+        end
+    end
+end
+---------------------------------------------
+
 
 function rendercore.rect(x, y, w, h, colorid, wireframe)
     RectColor = {

@@ -18,9 +18,10 @@ end
 --- @param textPosX | X position to create sprite
 --- @param textPosY | Y Position to create sprite
 --- @param FontSize | Set the font size
+--- @param ColoriD | Set font color
 --- @param wireframebool | boolean to show wireframe (Debug)
-function lunagraphics.newText(textStr, textPosX, textPosY, fontSize, wireframeRender)
-    rendercore.drawStr(textStr, textPosX, textPosY, fontSize, wireframeRender)
+function lunagraphics.newText(textStr, textPosX, textPosY, fontSize, ColoriD)
+    rendercore.drawStr(textStr, textPosX, textPosY, fontSize, ColoriD)
 end
 
 --- Change scene background color
@@ -35,7 +36,7 @@ end
 --- @param wt | width of rectangle
 --- @param ht | height of rectangle
 --- @param color | color id
---- @param fill | fill mode (1 = fill, 2 = line)
+--- @param fill | fill mode (1 = true, 2 = line)
 function lunagraphics.rect(xp, yp, wt, ht, color, fill)
 
     if fill == 1 then
