@@ -21,9 +21,8 @@ function bootloader.draw()
     }
 
     lunagraph.sceneColor(1)
-    lunagraph.newSprite(logo, 16, 580, 170, 2, false)
-    lunagraph.newText("Loading components", 320, 490, 6, 2)
-    --lunagraph.sceneColor(2)
+    lunagraph.newSprite(logo, 16, 580, 170, 2)
+    lunagraph.newText("Loading components", 320, 490, 6, 5, 2)
     lunagraph.rect(0, 708, progress, 8, 3, 1)
 
 end

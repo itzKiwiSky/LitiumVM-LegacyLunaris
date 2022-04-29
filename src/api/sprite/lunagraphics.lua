@@ -1,6 +1,7 @@
 lunagraphics = {}
 
-rendercore = require 'src/native/engine/rendercore'
+rendercore = require 'src/native/engine/rendercore/graph'
+textrender = require 'src/native/engine/rendercore/textrender'
 
 --- Create a new Sprite.
 --- @param table | Parse the sprite table
@@ -8,8 +9,8 @@ rendercore = require 'src/native/engine/rendercore'
 --- @param xpos | X position to create sprite
 --- @param ypos | Y Position to create sprite
 --- @param wireframebool | boolean to show wireframe (Debug)
-function lunagraphics.newSprite(table, spriteSize, xpos, ypos, wireframebool)
-    rendercore.drawCall(table, spriteSize, xpos, ypos, wireframebool)
+function lunagraphics.newSprite(table, spriteSize, xpos, ypos, wireDebug)
+    rendercore.drawCall(table, spriteSize, xpos, ypos, wireDebug)
 end
 
 
@@ -20,8 +21,8 @@ end
 --- @param FontSize | Set the font size
 --- @param ColoriD | Set font color
 --- @param wireframebool | boolean to show wireframe (Debug)
-function lunagraphics.newText(textStr, textPosX, textPosY, fontSize, ColoriD)
-    rendercore.drawStr(textStr, textPosX, textPosY, fontSize, ColoriD)
+function lunagraphics.newText(textStr, textPosX, textPosY, fontSize, textColor, bgcolor)
+    textrender.drawStr(textStr, textPosX, textPosY, fontSize, textColor, bgcolor)
 end
 
 --- Change scene background color

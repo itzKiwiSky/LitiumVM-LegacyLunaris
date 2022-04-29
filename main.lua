@@ -3,6 +3,7 @@ function love.load()
     state = require 'src/system/statemngr'
     sfxr = require 'src.native.engine/sfxr'
     font = require 'src/native/engine/resources/font'
+    textRender = require 'src/native/engine/rendercore/textrender'
 
     State = "bootloader"
 end
