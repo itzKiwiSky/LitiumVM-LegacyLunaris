@@ -1,10 +1,13 @@
 # LunarisVM-love
-> lunaris mini os made with love2D
+> Codename : lunaris, mini os made with love2D
 
 # About Project
 
 This engine is in development, started at 13/04/2022, you not able to download any binary to run this project.
-You can download this source code and build it on your machine
+You can download this source code and build it on your machine.
+
+### STATBILITY WARNING:
+    This project is constantly development, so scripts and functions can be added, removed or renamed, please check for the most recently version of source to not have compatibility issues.
 
 ## Building
 
