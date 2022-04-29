@@ -7,7 +7,7 @@ This engine is in development, started at 13/04/2022, you not able to download a
 You can download this source code and build it on your machine.
 
 ### STATBILITY WARNING:
-> This project is constantly development, so scripts and functions can be added, removed or renamed, please check for the most recently version of source to not have compatibility issues.
+> This project is constantly development, so scripts and functions can be added, removed, renamed or moved to other parts, please check for the most recently version of source to not have compatibility issues.
 
 ## Building
 
