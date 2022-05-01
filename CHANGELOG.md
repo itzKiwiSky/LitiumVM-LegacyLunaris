@@ -18,6 +18,12 @@
 - Wireframe for font render and sprite render removed
 - Fixed instability stuff
 
+    [0.0.4] - {unstable}
+
+- Sound driver added and newWave() function to generate square or sine wave types
+- More characters in font.lua
+- Bug fix
+
 
 # Next update
 
