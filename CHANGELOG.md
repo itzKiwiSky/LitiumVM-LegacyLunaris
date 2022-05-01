@@ -29,8 +29,8 @@
 
     [0.0.2] - {functional}
 
-- Sound "driver" (Sound generator)              [.]
-- Animation code to sprite tables               [.]
-- Destroy function for text and sprites         [.]
+- Sound "driver" (Sound generator)              [-]
+- Animation code to sprite tables               [-]
+- Destroy function for text and sprites         [X]
 - input tests                                   [.]
-- Boot scripts                                  [.]
+- Boot scripts                                  [-]
