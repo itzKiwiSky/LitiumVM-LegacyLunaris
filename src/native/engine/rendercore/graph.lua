@@ -49,7 +49,7 @@ function rendercore.windowColor(colorid)
     setBackgroundcolor(WindowColors[colorid])
 end
 
-function rendercore.rect(x, y, w, h, colorid, wireframeIdType)
+function rendercore.rect(x, y, w, h, colorid, fillType)
     RectColor = {
         {0,0,0},
         {0.5,0.5,0.5},
@@ -64,7 +64,7 @@ function rendercore.rect(x, y, w, h, colorid, wireframeIdType)
 
     setColor(RectColor[colorid])
 
-    rect(wireframeIdType, x, y, w, h)
+    rect(fillType, x, y, w, h)
 end
 
 return rendercore

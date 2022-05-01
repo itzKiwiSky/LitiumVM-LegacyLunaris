@@ -22,14 +22,14 @@ function bootloader.draw()
 
     lunagraph.sceneColor(1)
     lunagraph.newSprite(logo, 16, 580, 170, 2)
-    lunagraph.newText("Loading components", 320, 490, 6, 5, 2)
-    lunagraph.rect(0, 708, progress, 8, 3, 1)
-
+    lunagraph.newText("Loading components", 320, 490, 6, 1)
+    lunagraph.rect(0, 708, progress, 8, 3, "fill")
 end
 
 function bootloader.update()
 
     -- progress loading stuff
+    
     math.randomseed(os.clock())
     progress = progress + math.random(1, 15)
 end

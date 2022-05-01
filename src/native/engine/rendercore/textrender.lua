@@ -11,7 +11,7 @@ function text.drawStr(Textstr, x, y, FontSize, txtColor, bgColorId)
 
     textOutput = string.lower(Textstr)
 
-    letters = "abcdefghijklmnopqrstuvwxyz0123456789 !"
+    letters = "abcdefghijklmnopqrstuvwxyz0123456789 !$%&*(),.:;/|=-+"
 
     letterSize = font.FontSpacing
 
@@ -30,10 +30,19 @@ function text.drawStr(Textstr, x, y, FontSize, txtColor, bgColorId)
 end
 
 function drawCall(spriteData, pixelSize, Xpos, Ypos, TextColorID, BackgroundColorID)
-
-
-
-    colors = {
+    colorsBG = {
+        {0,0,0},
+        {0.5,0.5,0.5},
+        {1,1,1},
+        {1,0,0},
+        {0,1,0},
+        {0,0,1},
+        {1,1,0},
+        {0,1,1},
+        {1,0,1}
+    }
+    
+    colorsText = {
         {0.5,0.5,0.5},
         {1,1,1},
         {1,0,0},
@@ -47,9 +56,13 @@ function drawCall(spriteData, pixelSize, Xpos, Ypos, TextColorID, BackgroundColo
     for y=1, #spriteData do
 		for x=1, #spriteData[1] do
             if spriteData[y][x] == 0 then
-                setColor(colors[BackgroundColorID])
+                if BackgroundColorID == nil then
+                    setColor(0, 0, 0)
+                else
+                    setColor(colorsBG[BackgroundColorID])
+                end
             else
-                setColor(colors[TextColorID])
+                setColor(colorsText[TextColorID])
             end
             rect("fill", Xpos + (x * pixelSize), Ypos + (y * pixelSize), pixelSize, pixelSize)
 		end

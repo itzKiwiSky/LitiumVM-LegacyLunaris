@@ -1,3 +1,0 @@
-big thanks to Nucular to port SFXR to lua
-
-<3
