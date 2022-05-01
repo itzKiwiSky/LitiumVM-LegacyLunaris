@@ -1,14 +1,14 @@
 state = {}
 
 bootloader = require 'src/system/bootloader'
-bootmanager = require 'src/system/bootmanager'
+warning = require 'src/system/warning'
 
 function state.stateDraw(statename)
     if statename == "bootloader" then
         bootloader.draw()
     end
-    if statename == "bootmanager" then
-        bootmanager.draw()
+    if statename == "warning" then
+        warning.draw()
     end
 end
 
@@ -16,8 +16,8 @@ function state.stateUpdate(statename)
     if statename == "bootloader" then
         bootloader.update()
     end
-    if statename == "bootmanager" then
-        bootmanager.update()
+    if statename == "warning" then
+        warning.update()
     end
 end
 
