@@ -46,12 +46,4 @@ function lunagraphics.clearScreen()
     love.graphics.clear()
 end
 
-function lunagraphics.newAnimatedSprite(spriteTbale, x, y, size, spriteName)
-    
-end
-
-function lunagraphics.updateAnimatedSprite(spriteName)
-    
-end
-
 return lunagraphics

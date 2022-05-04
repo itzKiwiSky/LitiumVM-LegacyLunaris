@@ -4,7 +4,6 @@ function love.load()
     font = require 'src/native/engine/resources/font'
     textRender = require 'src/native/engine/rendercore/textrender'
     soundGen = require 'src/native/engine/sound/soundgen'
-
     State = "warning"
 end
 

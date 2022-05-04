@@ -20,8 +20,40 @@ function bootloader.draw()
         {1,1,3,3,3,3,1,1}
     }
 
-    lunagraph.sceneColor(1)
+    loadingIcon = {
+        {
+            {3,3,0,3,3},
+            {3,0,0,0,3},
+            {0,0,0,0,0},
+            {3,0,0,0,3},
+            {3,3,0,3,3}
+        },
+        {
+            {3,3,3,0,3},
+            {0,0,0,0,3},
+            {3,0,0,0,3},
+            {3,0,0,0,0},
+            {3,0,3,3,3}
+        },
+        {
+            {0,3,3,3,0},
+            {3,0,0,0,3},
+            {3,0,0,0,3},
+            {3,0,0,0,3},
+            {0,3,3,3,0}
+        },
+        {
+            {3,0,3,3,3},
+            {3,0,0,0,0},
+            {3,0,0,0,3},
+            {0,0,0,0,3},
+            {3,3,3,0,3}
+        }
+    }
+
+    lunagraph.clearScreen()
     lunagraph.newSprite(logo, 16, 580, 170, 2)
+    --lunagraph.newSprite(loadingIcon[frame])
     lunagraph.newText("Loading components", 320, 490, 6, 1)
     lunagraph.rect(0, 708, progress, 8, 3, "fill")
 end
