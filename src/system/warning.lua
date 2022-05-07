@@ -6,7 +6,7 @@ nonce = false
 
 
 function warning.draw()
-    dedications()
+    warnMessage()
 end
 
 function warnMessage()

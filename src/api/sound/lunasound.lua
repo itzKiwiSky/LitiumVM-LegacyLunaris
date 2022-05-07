@@ -10,6 +10,7 @@ music = {
 
 sounddriver = require 'src/native/engine/sound/soundgen'
 
+
 function lunasound.newWave(waveLength, ToneID, waveType)
     sounddriver.newWave(waveLength, ToneID, waveType)
 end

@@ -2,6 +2,7 @@ lunagraphics = {}
 
 rendercore = require 'src/native/engine/rendercore/graph'
 textrender = require 'src/native/engine/rendercore/textrender'
+textureFile = require 'src/native/engine/rendercore/texture'
 
 --- Create a new Sprite.
 --- @param table | Parse the sprite table
@@ -44,6 +45,10 @@ end
 --- Clear screen content
 function lunagraphics.clearScreen()
     love.graphics.clear()
+end
+
+function lunagraphics.loadSpriteFile(path)
+    return textureFile.loadfile(path)
 end
 
 return lunagraphics
