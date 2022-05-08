@@ -1,14 +1,9 @@
 lunasound = {}
 
--- waveLength, noteID, waveType, waitToNextWave
-
-music = {
-    start = 5,
-    spd = 3,
-    {5, 1, "square", 200}
-}
-
 sounddriver = require 'src/native/engine/sound/soundgen'
+isPlayingTrack = false
+timer = 0
+arraySection = 1
 
 
 function lunasound.newWave(waveLength, ToneID, waveType)
@@ -16,8 +11,32 @@ function lunasound.newWave(waveLength, ToneID, waveType)
 end
 
 function lunasound.playTrack(trackTable)
-    readSpeed = trackTable.spd
+    WaveLength      =       trackTable[arraySection][1]
+    NoteID          =       trackTable[arraySection][2]
+    noteType        =       trackTable[arraySection][3]
+    waitMS          =       trackTable[arraySection][4]
 
+    isPlayingTrack = true
+
+    if isPlayingTrack then
+        if arraySection < #trackTable then
+            timer = timer + 1
+            if timer > waitMS then
+                arraySection = arraySection + 1
+                print(WaveLength, NoteID, noteType, waitMS)
+                sounddriver.newWave(WaveLength, NoteID, noteType)
+                timer = 0
+            end
+        end
+    else
+        isPlayingTrack = false
+        return
+    end
+end
+
+function lunasound.loadFile(path)
+    file = io.open(path, "r")
+    return json.decode(file:read())
 end
 
 

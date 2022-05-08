@@ -4,13 +4,44 @@ function love.load()
     font = require 'src/native/engine/resources/font'
     textRender = require 'src/native/engine/rendercore/textrender'
     soundGen = require 'src/native/engine/sound/soundgen'
-    State = "lunamenu"
+    State = "bootloader"
+    lunasound = require 'src/api/sound/lunasound'
+
+    tracktest = {
+        {5, 1, "square", 20},
+        {5, 2, "square", 20},
+        {5, 3, "square", 20},
+        {5, 4, "square", 60},
+        {5, 4, "square", 20},
+        {5, 4, "square", 20},
+        {5, 1, "square", 60},
+        {5, 2, "square", 20},
+        {5, 1, "square", 20},
+        {5, 2, "square", 20},
+        {5, 2, "square", 20},
+        {5, 2, "square", 20},
+        {5, 1, "square", 20},
+        {5, 6, "square", 20},
+        {5, 5, "square", 20},
+        {5, 4, "square", 20},
+        {5, 3, "square", 20},
+        {5, 3, "square", 20},
+        {5, 3, "square", 20},
+        {5, 1, "square", 20},
+        {5, 2, "square", 20},
+        {5, 3, "square", 20},
+        {5, 4, "square", 20},
+        {5, 4, "square", 20},
+        {5, 4, "square", 20}
+    }
+
 end
 
 function love.draw()
-    state.stateDraw(State)
+    --state.stateDraw(State)
 end
 
 function love.update(dt)
-    state.stateUpdate(State)
+    --state.stateUpdate(State)
+    lunasound.playTrack(tracktest)
 end

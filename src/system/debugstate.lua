@@ -1,7 +1,7 @@
 debug = {}
 
 function debug.load()
-    
+
 end
 
 function debug.draw()
