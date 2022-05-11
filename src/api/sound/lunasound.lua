@@ -1,7 +1,10 @@
 lunasound = {}
 
 sounddriver = require 'src/native/engine/sound/soundgen'
+json = require 'src/thirdparty/json'
+
 isPlayingTrack = false
+isPaused = false
 timer = 0
 arraySection = 1
 
@@ -36,9 +39,8 @@ end
 
 function lunasound.loadFile(path)
     file = io.open(path, "r")
+    assert(file == nil, "[:ERROR:] | Can't load file with path " .. path)
     return json.decode(file:read())
 end
-
-
 
 return lunasound

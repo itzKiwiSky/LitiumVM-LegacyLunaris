@@ -1,6 +1,6 @@
 soundgen = {}
 
-tones = {
+oldtones = {
     --261.63,         -- C
     277.18,
     --293.66,         -- D
@@ -13,6 +13,16 @@ tones = {
     440,00,         -- A
     --466.16,
     493.88          -- B
+}
+
+tones = {
+    264,
+    297,
+    330,
+    352,
+    396,
+    440,
+    495
 }
 
 function soundgen.newWave(waveLength, tone, waveType)
@@ -32,7 +42,7 @@ function soundgen.newWave(waveLength, tone, waveType)
         end
     end
     local source = love.audio.newSource(soundData)
-    source:play()   
+    source:play()
 end
 
 return soundgen

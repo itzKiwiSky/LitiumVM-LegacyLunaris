@@ -2,20 +2,14 @@ local type = type
 local next = next
 local error = error
 local tonumber = tonumber
-local tostring = tostring
-local table_concat = table.concat
-local table_sort = table.sort
 local string_char = string.char
 local string_byte = string.byte
 local string_find = string.find
 local string_match = string.match
 local string_gsub = string.gsub
 local string_sub = string.sub
+local string_rep = string.rep
 local string_format = string.format
-local setmetatable = setmetatable
-local getmetatable = getmetatable
-local huge = math.huge
-local tiny = -huge
 
 local utf8_char
 local math_type
@@ -54,35 +48,7 @@ else
     math_type = math.type
 end
 
-local json = {}
-
-json.supportSparseArray = true
-
-local objectMt = {}
-
-function json.createEmptyObject()
-    return setmetatable({}, objectMt)
-end
-
-function json.isObject(t)
-    if t[1] ~= nil then
-        return false
-    end
-    return next(t) ~= nil or getmetatable(t) == objectMt
-end
-
-if debug and debug.upvalueid then
-    -- Generate a lightuserdata
-    json.null = debug.upvalueid(json.createEmptyObject, 1)
-else
-    json.null = function() end
-end
-
--- json.encode --
-local statusVisited
-local statusBuilder
-
-local encode_map = {}
+local json = require "json-beautify"
 
 local encode_escape_map = {
     [ "\"" ] = "\\\"",
@@ -102,167 +68,12 @@ for k, v in next, encode_escape_map do
     decode_escape_set[string_byte(v, 2)] = true
 end
 
-for i = 0, 31 do
-    local c = string_char(i)
-    if not encode_escape_map[c] then
-        encode_escape_map[c] = string_format("\\u%04x", i)
-    end
-end
-
-local function encode(v)
-    local res = encode_map[type(v)](v)
-    statusBuilder[#statusBuilder+1] = res
-end
-
-encode_map["nil"] = function ()
-    return "null"
-end
-
-local function encode_string(v)
-    return string_gsub(v, '[%z\1-\31\\"]', encode_escape_map)
-end
-
-function encode_map.string(v)
-    statusBuilder[#statusBuilder+1] = '"'
-    statusBuilder[#statusBuilder+1] = encode_string(v)
-    return '"'
-end
-
-local function convertreal(v)
-    local g = string_format('%.16g', v)
-    if tonumber(g) == v then
-        return g
-    end
-    return string_format('%.17g', v)
-end
-
-if string_match(tostring(1/2), "%p") == "," then
-    local _convertreal = convertreal
-    function convertreal(v)
-        return string_gsub(_convertreal(v), ',', '.')
-    end
-end
-
-function encode_map.number(v)
-    if v ~= v or v <= tiny or v >= huge then
-        error("unexpected number value '" .. tostring(v) .. "'")
-    end
-    if math_type(v) == "integer" then
-        return string_format('%d', v)
-    end
-    return convertreal(v)
-end
-
-function encode_map.boolean(v)
-    if v then
-        return "true"
-    else
-        return "false"
-    end
-end
-
-function encode_map.table(t)
-    local first_val = next(t)
-    if first_val == nil then
-        if getmetatable(t) == objectMt then
-            return "{}"
-        else
-            return "[]"
-        end
-    end
-    if statusVisited[t] then
-        error("circular reference")
-    end
-    statusVisited[t] = true
-    if type(first_val) == 'string' then
-        local keys = {}
-        for k in next, t do
-            if type(k) ~= "string" then
-                error("invalid table: mixed or invalid key types")
-            end
-            keys[#keys+1] = k
-        end
-        table_sort(keys)
-        local k = keys[1]
-        statusBuilder[#statusBuilder+1] = '{"'
-        statusBuilder[#statusBuilder+1] = encode_string(k)
-        statusBuilder[#statusBuilder+1] = '":'
-        encode(t[k])
-        for i = 2, #keys do
-            local k = keys[i]
-            statusBuilder[#statusBuilder+1] = ',"'
-            statusBuilder[#statusBuilder+1] = encode_string(k)
-            statusBuilder[#statusBuilder+1] = '":'
-            encode(t[k])
-        end
-        statusVisited[t] = nil
-        return "}"
-    elseif json.supportSparseArray then
-        local max = 0
-        for k in next, t do
-            if math_type(k) ~= "integer" or k <= 0 then
-                error("invalid table: mixed or invalid key types")
-            end
-            if max < k then
-                max = k
-            end
-        end
-        statusBuilder[#statusBuilder+1] = "["
-        encode(t[1])
-        for i = 2, max do
-            statusBuilder[#statusBuilder+1] = ","
-            encode(t[i])
-        end
-        statusVisited[t] = nil
-        return "]"
-    else
-        if t[1] == nil then
-            error("invalid table: mixed or invalid key types")
-        end
-        statusBuilder[#statusBuilder+1] = "["
-        encode(t[1])
-        local count = 2
-        while t[count] ~= nil do
-            statusBuilder[#statusBuilder+1] = ","
-            encode(t[count])
-            count = count + 1
-        end
-        if next(t, count-1) ~= nil then
-            error("invalid table: mixed or invalid key types")
-        end
-        statusVisited[t] = nil
-        return "]"
-    end
-end
-
-local function encode_unexpected(v)
-    if v == json.null then
-        return "null"
-    else
-        error("unexpected type '"..type(v).."'")
-    end
-end
-encode_map[ "function" ] = encode_unexpected
-encode_map[ "userdata" ] = encode_unexpected
-encode_map[ "thread"   ] = encode_unexpected
-
-function json.encode(v)
-    statusVisited = {}
-    statusBuilder = {}
-    encode(v)
-    return table_concat(statusBuilder)
-end
-
-json._encode_map = encode_map
-json._encode_string = encode_string
-
--- json.decode --
-
 local statusBuf
 local statusPos
 local statusTop
 local statusAry = {}
 local statusRef = {}
+local statusAst = {}
 
 local function find_line()
     local line = 1
@@ -289,29 +100,43 @@ local function get_word()
     return string_match(statusBuf, "^[^ \t\r\n%]},]*", statusPos)
 end
 
-local function next_byte()
-    local pos = string_find(statusBuf, "[^ \t\r\n]", statusPos)
-    if pos then
-        statusPos = pos
-        return string_byte(statusBuf, pos)
+local function skip_comment(b)
+    if b ~= 47 --[[ '/' ]] then
+        return
     end
-    return -1
-end
-
-local function consume_byte(c)
-    local _, pos = string_find(statusBuf, c, statusPos)
-    if pos then
-        statusPos = pos + 1
+    local c = string_byte(statusBuf, statusPos+1)
+    if c == 42 --[[ '*' ]] then
+        -- block comment
+        local pos = string_find(statusBuf, "*/", statusPos)
+        if pos then
+            statusPos = pos + 2
+        else
+            statusPos = #statusBuf + 1
+        end
+        return true
+    elseif c == 47 --[[ '/' ]] then
+        -- line comment
+        local pos = string_find(statusBuf, "[\r\n]", statusPos)
+        if pos then
+            statusPos = pos
+        else
+            statusPos = #statusBuf + 1
+        end
         return true
     end
 end
 
-local function expect_byte(c)
-    local _, pos = string_find(statusBuf, c, statusPos)
-    if not pos then
-        decode_error(string_format("expected '%s'", string_sub(c, #c)))
+local function next_byte()
+    local pos = string_find(statusBuf, "[^ \t\r\n]", statusPos)
+    if pos then
+        statusPos = pos
+        local b = string_byte(statusBuf, pos)
+        if not skip_comment(b) then
+            return b
+        end
+        return next_byte()
     end
-    statusPos = pos
+    return -1
 end
 
 local function decode_unicode_surrogate(s1, s2)
@@ -375,7 +200,7 @@ local function decode_number()
         decode_error("invalid number '" .. get_word() .. "'")
     end
     if c ~= '' then
-        num = string_match(statusBuf, '^([^eE]*[eE][-+]?[0-9]+)[ \t\r\n%]},]', statusPos)
+        num = string_match(statusBuf, '^([^eE]*[eE][-+]?[0-9]+)[ \t\r\n%]},/]', statusPos)
         if not num then
             decode_error("invalid number '" .. get_word() .. "'")
         end
@@ -390,7 +215,7 @@ local function decode_number_zero()
         decode_error("invalid number '" .. get_word() .. "'")
     end
     if c ~= '' then
-        num = string_match(statusBuf, '^([^eE]*[eE][-+]?[0-9]+)[ \t\r\n%]},]', statusPos)
+        num = string_match(statusBuf, '^([^eE]*[eE][-+]?[0-9]+)[ \t\r\n%]},/]', statusPos)
         if not num then
             decode_error("invalid number '" .. get_word() .. "'")
         end
@@ -436,27 +261,33 @@ local function decode_null()
     return json.null
 end
 
-local function decode_array()
+local function decode_array(ast)
     statusPos = statusPos + 1
-    if consume_byte "^[ \t\r\n]*%]" then
-        return {}
-    end
     local res = {}
+    local chr = next_byte()
+    if chr == 93 --[[ ']' ]] then
+        statusPos = statusPos + 1
+        return res
+    end
     statusTop = statusTop + 1
     statusAry[statusTop] = true
     statusRef[statusTop] = res
+    statusAst[statusTop] = ast
     return res
 end
 
-local function decode_object()
+local function decode_object(ast)
     statusPos = statusPos + 1
-    if consume_byte "^[ \t\r\n]*}" then
+    local res = {}
+    local chr = next_byte()
+    if chr == 125 --[[ ']' ]] then
+        statusPos = statusPos + 1
         return json.createEmptyObject()
     end
-    local res = {}
     statusTop = statusTop + 1
     statusAry[statusTop] = false
     statusRef[statusTop] = res
+    statusAst[statusTop] = ast
     return res
 end
 
@@ -493,7 +324,11 @@ end
 decode_map[-1] = unexpected_eol
 
 local function decode()
-    return decode_map[next_byte()]()
+    local chr = next_byte()
+    local ast = {s = statusPos, d = statusTop}
+    ast.v = decode_map[chr](ast)
+    ast.f = statusPos
+    return ast
 end
 
 local function decode_item()
@@ -502,35 +337,53 @@ local function decode_item()
     if statusAry[top] then
         ref[#ref+1] = decode()
     else
-        expect_byte '^[ \t\r\n]*"'
+        local start = statusPos
         local key = decode_string()
-        expect_byte '^[ \t\r\n]*:'
+        local finish = statusPos
+        if next_byte() ~= 58 --[[ ':' ]] then
+            decode_error "expected ':'"
+        end
         statusPos = statusPos + 1
-        ref[key] = decode()
+        local val = decode()
+        val.key_s = start
+        val.key_f = finish
+        ref[key] = val
     end
     if top == statusTop then
         repeat
             local chr = next_byte(); statusPos = statusPos + 1
             if chr == 44 --[[ "," ]] then
-                return
-            end
-            if statusAry[statusTop] then
-                if chr ~= 93 --[[ "]" ]] then decode_error "expected ']' or ','" end
+                local c = next_byte()
+                if statusAry[statusTop] then
+                    if c ~= 93 --[[ "]" ]] then return end
+                else
+                    if c ~= 125 --[[ "}" ]] then return end
+                end
+                statusPos = statusPos + 1
             else
-                if chr ~= 125 --[[ "}" ]] then decode_error "expected '}' or ','" end
+                if statusAry[statusTop] then
+                    if chr ~= 93 --[[ "]" ]] then decode_error "expected ']' or ','" end
+                else
+                    if chr ~= 125 --[[ "}" ]] then decode_error "expected '}' or ','" end
+                end
             end
+            local ast = statusAst[statusTop]
+            ast.f = statusPos
             statusTop = statusTop - 1
         until statusTop == 0
     end
 end
 
-function json.decode(str)
+local function decode_ast(str)
     if type(str) ~= "string" then
         error("expected argument of type string, got " .. type(str))
     end
     statusBuf = str
     statusPos = 1
     statusTop = 0
+    if next_byte() == -1 then
+        return json.null
+    end
     local res = decode()
     while statusTop > 0 do
         decode_item()
@@ -540,5 +393,232 @@ function json.decode(str)
     end
     return res
 end
+
+local function split(s)
+    local r = {}
+    s:gsub('[^/]+', function (w)
+        r[#r+1] = w:gsub("~1", "/"):gsub("~0", "~")
+    end)
+    return r
+end
+
+local function query_(ast, pathlst, n)
+    local data = ast.v
+    if type(data) ~= "table" then
+        return
+    end
+    local k = pathlst[n]
+    local isarray = not json.isObject(data)
+    if isarray then
+        if k == "-" then
+            k = #data + 1
+        else
+            if k:match "^0%d+" then
+                return
+            end
+            k = tonumber(k)
+            if k == nil or math_type(k) ~= "integer" or k <= 0 or k > #data + 1 then
+                return
+            end
+        end
+    end
+    if n == #pathlst then
+        return data, k, isarray
+    end
+    return query_(data[k], pathlst, n + 1)
+end
+
+local function query(ast, path)
+    if type(path) ~= "string" then
+        return
+    end
+    if path:sub(1,1) ~= "/" then
+        return
+    end
+    return query_(ast, split(path:sub(2)), 1)
+end
+
+local function del_first_empty_line(str)
+    local pos = str:match("()[ \t]*$")
+    if pos then
+        local nl1 = str:sub(pos-1, pos-1)
+        if nl1:match "[\r\n]" then
+            return pos-1
+        end
+    end
+end
+
+local function del_last_empty_line(str)
+    local pos = str:match("^[ \t]*()")
+    if pos then
+        local nl1 = str:sub(pos, pos)
+        if nl1:match "[\r\n]" then
+            local nl2 = str:sub(pos+1, pos+1)
+            if nl2:match "[\r\n]" and nl1 ~= nl2 then
+                return pos+2
+            else
+                return pos+1
+            end
+        end
+    end
+end
+
+local function find_max_node(t)
+    local max
+    for _, n in pairs(t) do
+        if not max or max.f < n.f then
+            max = n
+        end
+    end
+    return max
+end
+
+local function apply_array_insert_before(str, option, value, node)
+    local start_text = str:sub(1, node.s-1)
+    local finish_text = str:sub(node.s)
+    option.depth = option.depth + node.d
+    return start_text
+        .. json.beautify(value, option)
+        .. ","
+        .. option.newline
+        .. string_rep(option.indent, option.depth)
+        .. finish_text
+end
+
+local function apply_array_insert_after(str, option, value, node)
+    local start_text = str:sub(1, node.f-1)
+    local finish_text = str:sub(node.f)
+    option.depth = option.depth + node.d
+    return start_text
+        .. ","
+        .. option.newline
+        .. string_rep(option.indent, option.depth)
+        .. json.beautify(value, option)
+        .. finish_text
+end
+
+local function apply_replace(str, option, value, node)
+    local start_text = str:sub(1, node.s-1)
+    local finish_text = str:sub(node.f)
+    option.depth = option.depth + node.d
+    return start_text
+        .. json.beautify(value, option)
+        .. finish_text
+end
+
+local function apply_object_insert(str, option, value, t, k)
+    local node = find_max_node(t)
+    if node then
+        local start_text = str:sub(1, node.f-1)
+        local finish_text = str:sub(node.f)
+        option.depth = option.depth + node.d
+        return start_text
+            .. ","
+            .. option.newline
+            .. string_rep(option.indent, option.depth)
+            .. '"'
+            .. json._encode_string(k)
+            .. '": '
+            .. json.beautify(value, option)
+            .. finish_text
+    end
+end
+
+local function apply_remove(str, s, f)
+    local start_text = str:sub(1, s-1)
+    local finish_text = str:sub(f+1)
+    local start_pos = del_first_empty_line(start_text)
+    local finish_pos = del_last_empty_line(finish_text)
+    if start_pos and finish_pos then
+        return start_text:sub(1,start_pos) .. finish_text:sub(finish_pos)
+    else
+        return start_text .. finish_text
+    end
+end
+
+local OP = {}
+
+function OP.add(str, option, path, value)
+    if value == nil then
+        return
+    end
+    if path == '' then
+        return json.beautify(value, option)
+    end
+    local ast = decode_ast(str)
+    local t, k, isarray = query(ast, path)
+    if not t then
+        return
+    end
+    if isarray then
+        if t[k] then
+            return apply_array_insert_before(str, option, value, t[k])
+        else
+            return apply_array_insert_after(str, option, value, t[k-1])
+        end
+    else
+        if t[k] then
+            return apply_replace(str, option, value, t[k])
+        else
+            return apply_object_insert(str, option, value, t, k)
+        end
+    end
+end
+
+function OP.remove(str, _, path)
+    if path == '' then
+        return ''
+    end
+    local ast = decode_ast(str)
+    local t, k, isarray = query(ast, path)
+    if not t then
+        return
+    end
+    if isarray then
+        if k > #t then
+            return
+        end
+        return apply_remove(str, t[k].s, t[k].f)
+    else
+        if t[k] == nil then
+            return
+        end
+        return apply_remove(str, t[k].key_s, t[k].f)
+    end
+end
+
+function OP.replace(str, option, path, value)
+    if value == nil then
+        return
+    end
+    if path == '' then
+        return json.beautify(value, option)
+    end
+    local ast = decode_ast(str)
+    local t, k, isarray = query(ast, path)
+    if not t then
+        return
+    end
+    if t[k] then
+        return apply_replace(str, option, value, t[k])
+    else
+        if isarray then
+            return apply_array_insert_after(str, option, value, t[k-1])
+        else
+            return apply_object_insert(str, option, value, t, k)
+        end
+    end
+end
+
+local function edit(str, patch, option)
+    local f = OP[patch.op]
+    if not f then
+        return
+    end
+    option = json.beautify_option(option)
+    return f(str, option, patch.path, patch.data)
+end
+
+json.edit = edit
 
 return json
