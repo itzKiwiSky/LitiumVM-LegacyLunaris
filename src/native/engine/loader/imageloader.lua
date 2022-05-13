@@ -4,10 +4,17 @@ load = love.filesystem.load
 
 chan = require 'src/native/engine/chan/decode'
 
-function imageloader.getImage()
+lovezip = require 'src/thirdparty/love-zip'
+
+function imageloader.getImage()     --get operating system name image (folder)
     defaultimage = chan.decode("bios", "BIOS_DEFAULTIMAGE")
 
-    load("disk/" .. defaultimage .. "/main.lua")
+    imagedata = sload("disk/" .. defaultimage .. "/main.lua")
+
+end
+
+function imageloader.systemcall()
+    
 end
  
 return imageloader

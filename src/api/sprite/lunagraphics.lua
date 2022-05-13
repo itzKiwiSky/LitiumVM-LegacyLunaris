@@ -15,7 +15,7 @@ end
 
 
 --- Create a new text.
---- @param table | Parse the sprite table
+--- @param textStr | Parse the sprite table
 --- @param textPosX | X position to create sprite
 --- @param textPosY | Y Position to create sprite
 --- @param FontSize | Set the font size
