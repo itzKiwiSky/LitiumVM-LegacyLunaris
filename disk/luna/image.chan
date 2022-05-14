@@ -1,2 +1,3 @@
 IMAGE::luna_system
 IMAGE_COMPATIBILITY_VERSION::0.0.1
+IMAGE_ICON_FILE::icon.json

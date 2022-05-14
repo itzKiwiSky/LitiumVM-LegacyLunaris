@@ -9,6 +9,7 @@ fonts = require 'src/native/engine/resources/font'
 
 function rendercore.drawCall(tablespr, pixelSize, Xpos, Ypos)
     colors = {
+        {0,0,0,0},
         {0,0,0},
         {0.5,0.5,0.5},
         {1,1,1},
@@ -38,7 +39,7 @@ function rendercore.drawCall(tablespr, pixelSize, Xpos, Ypos)
             if y > 50 or x > 50 then
                 error("Sprite size, higher than 50 pixels")
             else
-                setColor(color[1], color[2], color[3])
+                setColor(color[1], color[2], color[3], color[4])
                 rect("fill", Xpos + (x * pixelSize), Ypos + (y * pixelSize), pixelSize, pixelSize)
             end
 		end

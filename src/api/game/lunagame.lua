@@ -1,12 +1,30 @@
 lunagame = {}
 
-function lunagame.collision()
-    if (p1.y + p1.h > d1.y ) and ( p1.y < d1.y + d1.h ) and
-    (p1.x + p1.w > d1.x ) and ( p1.x < d1.x + d1.w ) then
-
+function lunagame.collision(collisionType, sprite1, sprite2)
+    if string.lower(collisionType) == "rect" then
+        return sprite1.x < sprite2.x + sprite2.w and
+        sprite1.x + sprite1.w > sprite2.x and
+        sprite1.y < sprite1.y + sprite2.h and
+        sprite1.y + sprite1.h > sprite2.y
     end
 
-    return 
+    if string.lower(collisionType) == "circle" then
+
+        assert(sprite1.radius == nil or sprite2.radius == nil, "[:ERROR:] | Sprite table propertie not found : 'radius'")
+        assert(sprite1.x == nil or sprite2.x == nil, "[:ERROR:] | Sprite table propertie not found : 'x'")
+        assert(sprite1.y == nil or sprite2.y == nil, "[:ERROR:] | Sprite table propertie not found : 'y'")
+
+        dx = sprite1.x - sprite2.x
+        dy = sprite1.y - sprite2.y
+
+        dist = math.sqrt(dx * dx + dY * dy)
+        
+        if dist < sprite1.radius + sprite2.radius then
+            return true
+        else
+            return false
+        end
+    end
 end
 
 return lunagame
