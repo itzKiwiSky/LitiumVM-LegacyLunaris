@@ -1,17 +1,11 @@
 function start()
-    print("love")
+    print("love test")
+end
+
+function render()
+    print("love test")
 end
 
 function update()
-    print("love")
+    print("love test")
 end
-
-function draw()
-    print("love")
-end
-
---[[ : call this to run  : ]]--
-
-start()
-update()
-draw()
