@@ -23,3 +23,9 @@ You can contribute with the development of engine by clonning this repository wi
 Everyone who helps will be credited here (social media or Github page)
 
 also I do a simple todo list, here link : https://trello.com/b/uuZdIhO0/codename-lunaris
+
+# Library credits
+
+> ### [HUMP - vrld](https://github.com/vrld/hump)
+> ### [Json.lua - rxi](https://github.com/rxi/json.lua)
+> ### [Penlight lib - lunarmodules](https://github.com/lunarmodules/Penlight)

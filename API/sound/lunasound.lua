@@ -39,7 +39,7 @@ end
 
 function lunasound.loadFile(path)
     file = io.open(path, "r")
-    assert(file == nil, "[:ERROR:] | Can't load file with path " .. path)
+    --assert(file == nil, "[:ERROR:] | Can't load file with path " .. path)
     return json.decode(file:read())
 end
 

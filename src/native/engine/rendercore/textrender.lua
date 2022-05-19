@@ -31,6 +31,7 @@ end
 
 function drawCall(spriteData, pixelSize, Xpos, Ypos, TextColorID, BackgroundColorID)
     colorsBG = {
+        {0,0,0,0},
         {0,0,0},
         {0.5,0.5,0.5},
         {1,1,1},
