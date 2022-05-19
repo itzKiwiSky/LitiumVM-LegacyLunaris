@@ -26,6 +26,8 @@ also I do a simple todo list, here link : https://trello.com/b/uuZdIhO0/codename
 
 # Library credits
 
+This engine use some third party libraries, here the creditation for they amazing work :D
+
 > ### [HUMP - vrld](https://github.com/vrld/hump)
 > ### [Json.lua - rxi](https://github.com/rxi/json.lua)
 > ### [Penlight lib - lunarmodules](https://github.com/lunarmodules/Penlight)
