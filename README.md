@@ -1,3 +1,7 @@
+# Lunaris is not on support
+> This is a legacy repository for old versions of LitiumVM
+> Please check the official [litiumVM](https://github.com/Doge2Dev/LitiumVM) here 
+
 # LunarisVM-love
 
 > Codename : lunaris, mini os made with love2D
