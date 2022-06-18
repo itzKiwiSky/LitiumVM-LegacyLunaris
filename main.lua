@@ -1,6 +1,10 @@
  function love.load()
     chan = require 'src/native/engine/chan/decode'
     imageloader = require 'src/native/engine/loader/imageloader'
+    
+    for k, v in pairs(love.filesystem.getDirectoryItems("/")) do
+        print(k, v)
+    end
 
     --=[: API Stuff :]=--
     lunagraphics        =       require 'API/sprite/lunagraphics'

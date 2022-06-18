@@ -3,4 +3,5 @@ function love.conf(t)
     t.window.height     =       720
     t.window.title      =       "yoooooooooooooooooooooooooooooo"
     t.console           =       true
+    t.identity          =       "lunaris"
 end
